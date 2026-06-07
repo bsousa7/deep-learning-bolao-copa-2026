@@ -1,0 +1,24 @@
+# Bolão Copa 2026 — dependências (Python 3.13)
+# Instalação:  pip install -r requirements.txt
+
+# --- Núcleo: dados, modelagem e rede neural ---
+tensorflow==2.20.0
+numpy==2.1.3
+pandas==3.0.3
+scikit-learn==1.8.0
+scipy==1.17.1
+
+# --- Visualização ---
+matplotlib==3.10.9
+
+# --- Coleta de dados (fetch online com fallback local) ---
+requests==2.34.2
+beautifulsoup4==4.14.3
+
+# --- Execução do notebook ---
+nbformat==5.10.4
+nbconvert==7.17.1
+ipykernel==7.2.0
+jupyter-core==5.9.1
+jupyter-client==8.8.0
+ipython==9.14.0

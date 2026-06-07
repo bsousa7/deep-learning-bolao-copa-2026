@@ -47,18 +47,21 @@ md(r"""### Configuração e reprodutibilidade
 Fixamos *seeds* em `PYTHONHASHSEED`, `random`, `numpy` e `tensorflow`, e habilitamos operações
 determinísticas no TF. Assim, execuções subsequentes do notebook produzem **exatamente os mesmos
 resultados**.""")
-code(r"""import os, random, json, io, warnings
-SEED = 42
-os.environ["PYTHONHASHSEED"] = str(SEED)
-os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
+code(r"""# Imports e configuração global de reprodutibilidade.
+import os, random, json, io, warnings
+SEED = 42                                       # semente única usada em todo o pipeline
+os.environ["PYTHONHASHSEED"] = str(SEED)        # fixa o hashing do Python
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")  # silencia logs verbosos do TF
 warnings.filterwarnings("ignore")
 
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
-from scipy.stats import poisson
+from scipy.stats import poisson                 # PMF de Poisson p/ extrair o placar (moda)
 
+# Fixa as sementes de random/NumPy/TensorFlow e ativa kernels determinísticos:
+# garante que execuções repetidas produzam exatamente o mesmo resultado.
 random.seed(SEED)
 np.random.seed(SEED)
 tf.keras.utils.set_random_seed(SEED)
@@ -152,21 +155,27 @@ de modo que jogos dos **últimos 2 anos** dominam o ajuste e jogos antigos são 
 têm estatísticas de forma/pontos **encolhidas em direção à média da sua confederação**
 (estimador empírico-Bayes $\hat\theta = \frac{n\,\theta_{time} + k\,\theta_{conf}}{n+k}$),
 suprindo a falta de amostras com o comportamento típico de seleções análogas.""")
-code(r"""DATA_DIR = "data"
+code(r"""# Carregamento das bases. results.csv tenta o fetch online (versão mais recente);
+# se a rede falhar, recorre à cópia local em data/ (reprodutibilidade offline).
+DATA_DIR = "data"
 RESULTS_URL = "https://raw.githubusercontent.com/martj42/international_results/master/results.csv"
 
 def load_results():
-    "Tenta baixar results.csv atualizado; em falha usa a cópia local."
+    "Tenta baixar results.csv atualizado (com timeout); em falha usa a cópia local."
     try:
-        df = pd.read_csv(RESULTS_URL, parse_dates=["date"])
+        # Download com timeout explícito: evita travar caso a rede penda no meio.
+        resp = requests.get(RESULTS_URL, timeout=15)
+        resp.raise_for_status()
+        df = pd.read_csv(io.StringIO(resp.text), parse_dates=["date"])  # fonte online (GitHub)
         print("[results] baixado online:", df.shape)
-    except Exception as e:
+    except Exception as e:                                    # sem internet/timeout -> fallback local
         print("[results] fetch falhou -> usando arquivo local:", repr(e)[:70])
         df = pd.read_csv(os.path.join(DATA_DIR, "results.csv"), parse_dates=["date"])
         print("[results] local:", df.shape)
     return df
 
-raw = load_results()
+raw = load_results()                                          # histórico de partidas (alvos/Elo/forma)
+# Ranking FIFA histórico (rank, pontos, confederação) — lido do arquivo local.
 fifa = pd.read_csv(os.path.join(DATA_DIR, "fifa_ranking.csv"), parse_dates=["rank_date"])
 print("[fifa_ranking]:", fifa.shape)
 raw.head(3)""")
@@ -349,25 +358,31 @@ contagens baixas e produz **probabilidades discretas** $P(k;\lambda)$ usadas par
 **Saída determinística.** Para cada $\lambda$, o placar é a **moda** da Poisson,
 $\arg\max_{k\in\{0,..,5\}} P(k;\lambda)$ — inteiro único por seleção, restrito ao intervalo
 histórico realista da fase de grupos.""")
-code(r"""def build_model(n_features, seed=SEED):
-    tf.keras.utils.set_random_seed(seed)
+code(r"""# Define a rede densa de regressão de Poisson: features -> (lambda_A, lambda_B).
+def build_model(n_features, seed=SEED):
+    tf.keras.utils.set_random_seed(seed)                   # reprodutibilidade dos pesos iniciais
     init = keras.initializers.GlorotUniform(seed=seed)
     inp = keras.Input(shape=(n_features,), name="features")
+    # Bloco 1: 128 unidades + BatchNorm (estabiliza) + Dropout 30% (regulariza)
     x = keras.layers.Dense(128, activation="relu", kernel_initializer=init)(inp)
     x = keras.layers.BatchNormalization()(x)
     x = keras.layers.Dropout(0.30, seed=seed)(x)
+    # Bloco 2: 64 unidades + BatchNorm + Dropout 20%
     x = keras.layers.Dense(64, activation="relu", kernel_initializer=init)(x)
     x = keras.layers.BatchNormalization()(x)
     x = keras.layers.Dropout(0.20, seed=seed)(x)
+    # Bloco 3: 32 unidades (compressão final antes da saída)
     x = keras.layers.Dense(32, activation="relu", kernel_initializer=init)(x)
+    # Saída: 2 unidades com softplus => garante lambdas > 0 (gols esperados de A e B)
     lam = keras.layers.Dense(2, activation="softplus", kernel_initializer=init,
-                             name="lambdas")(x)            # (lambda_A, lambda_B) > 0
+                             name="lambdas")(x)
     model = keras.Model(inp, lam, name="poisson_score_net")
+    # Perda = log-verossimilhança negativa de Poisson (natural p/ contagens de gols)
     model.compile(optimizer=keras.optimizers.Adam(1e-3),
-                  loss=keras.losses.Poisson())             # NLL de Poisson
+                  loss=keras.losses.Poisson())
     return model
 
-model = build_model(len(FEATS))
+model = build_model(len(FEATS))                            # 17 features de entrada
 model.summary()""")
 code(r"""# Split temporal: validação = jogos mais recentes (18 meses); treino = anteriores
 val_start = DATA_MAX - pd.DateOffset(months=18)
@@ -385,7 +400,9 @@ hist = model.fit(Xtr, Ytr, sample_weight=Wtr,
                  epochs=200, batch_size=256, verbose=0, callbacks=callbacks)
 print(f"Epocas treinadas: {len(hist.history['loss'])} | "
       f"melhor val_loss: {min(hist.history['val_loss']):.4f}")""")
-code(r"""import matplotlib.pyplot as plt
+code(r"""# Curva de aprendizado: compara a perda (Poisson NLL) em treino vs validação por época.
+# Curvas próximas e decrescentes indicam ajuste sem overfitting acentuado.
+import matplotlib.pyplot as plt
 plt.figure(figsize=(7,4))
 plt.plot(hist.history["loss"], label="treino")
 plt.plot(hist.history["val_loss"], label="validação")
@@ -511,17 +528,18 @@ md(r"""### 7.4 Exportação do JSON (formato exigido por `bolao_copa.txt`)
 
 Geramos `bolao_resultado.json` com as chaves `nome`, `turma` e `resultados` (`jogo1..jogo24`),
 cada seleção mapeada para `{"gols": <int>}`. A ordem e as siglas seguem exatamente `bolao_copa.txt`.""")
-code(r"""NOME, TURMA = "Bruno Aires", "2º BIM 2026"
+code(r"""# Monta o dicionário de saída no formato exigido por bolao_copa.txt e grava o JSON.
+NOME, TURMA = "Bruno Aires", "2º BIM 2026"
 resultados = {}
-for _, r in cal.sort_values("jogo").iterrows():
-    resultados[f"jogo{int(r['jogo'])}"] = {
-        r["A"]: {"gols": int(r["gols_A"])},
-        r["B"]: {"gols": int(r["gols_B"])},
+for _, r in cal.sort_values("jogo").iterrows():            # percorre os 24 jogos em ordem
+    resultados[f"jogo{int(r['jogo'])}"] = {                # chave jogo1..jogo24
+        r["A"]: {"gols": int(r["gols_A"])},                # sigla do time A -> gols (inteiro)
+        r["B"]: {"gols": int(r["gols_B"])},                # sigla do time B -> gols (inteiro)
     }
 saida = {"nome": NOME, "turma": TURMA, "resultados": resultados}
 
 OUT = "bolao_resultado.json"
-with open(OUT, "w", encoding="utf-8") as f:
+with open(OUT, "w", encoding="utf-8") as f:                # UTF-8 + indentação legível
     json.dump(saida, f, ensure_ascii=False, indent=2)
 print("JSON salvo em", OUT)
 print(json.dumps(saida, ensure_ascii=False, indent=2)[:600], "...")""")
