@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+
+# Jupyter
+*.nbconvert.ipynb
+
+# duplicata do notebook (não versionar)
+bolao_copa_2026_v3 - cópia.txt

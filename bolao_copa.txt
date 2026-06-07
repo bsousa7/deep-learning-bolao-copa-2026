@@ -1,0 +1,198 @@
+{
+  "nome": "Nome completo do aluno",
+  "turma": "Turma do aluno",
+  "resultados": {
+    "jogo1": {
+      "MEX": {
+        "gols": null
+      },
+      "RSA": {
+        "gols": null
+      }
+    },
+    "jogo2": {
+      "KOR": {
+        "gols": null
+      },
+      "CZE": {
+        "gols": null
+      }
+    },
+    "jogo3": {
+      "CAN": {
+        "gols": null
+      },
+      "BIH": {
+        "gols": null
+      }
+    },
+    "jogo4": {
+      "USA": {
+        "gols": null
+      },
+      "PAR": {
+        "gols": null
+      }
+    },
+    "jogo5": {
+      "HAI": {
+        "gols": null
+      },
+      "SCO": {
+        "gols": null
+      }
+    },
+    "jogo6": {
+      "AUS": {
+        "gols": null
+      },
+      "TUR": {
+        "gols": null
+      }
+    },
+    "jogo7": {
+      "BRA": {
+        "gols": null
+      },
+      "MAR": {
+        "gols": null
+      }
+    },
+    "jogo8": {
+      "QAT": {
+        "gols": null
+      },
+      "SUI": {
+        "gols": null
+      }
+    },
+    "jogo9": {
+      "CIV": {
+        "gols": null
+      },
+      "ECU": {
+        "gols": null
+      }
+    },
+    "jogo10": {
+      "GER": {
+        "gols": null
+      },
+      "CUW": {
+        "gols": null
+      }
+    },
+    "jogo11": {
+      "NED": {
+        "gols": null
+      },
+      "JPN": {
+        "gols": null
+      }
+    },
+    "jogo12": {
+      "SWE": {
+        "gols": null
+      },
+      "TUN": {
+        "gols": null
+      }
+    },
+    "jogo13": {
+      "KSA": {
+        "gols": null
+      },
+      "URU": {
+        "gols": null
+      }
+    },
+    "jogo14": {
+      "ESP": {
+        "gols": null
+      },
+      "CPV": {
+        "gols": null
+      }
+    },
+    "jogo15": {
+      "IRN": {
+        "gols": null
+      },
+      "NZL": {
+        "gols": null
+      }
+    },
+    "jogo16": {
+      "BEL": {
+        "gols": null
+      },
+      "EGY": {
+        "gols": null
+      }
+    },
+    "jogo17": {
+      "FRA": {
+        "gols": null
+      },
+      "SEN": {
+        "gols": null
+      }
+    },
+    "jogo18": {
+      "IRQ": {
+        "gols": null
+      },
+      "NOR": {
+        "gols": null
+      }
+    },
+    "jogo19": {
+      "ARG": {
+        "gols": null
+      },
+      "ALG": {
+        "gols": null
+      }
+    },
+    "jogo20": {
+      "AUT": {
+        "gols": null
+      },
+      "JOR": {
+        "gols": null
+      }
+    },
+    "jogo21": {
+      "GHA": {
+        "gols": null
+      },
+      "PAN": {
+        "gols": null
+      }
+    },
+    "jogo22": {
+      "ENG": {
+        "gols": null
+      },
+      "CRO": {
+        "gols": null
+      }
+    },
+    "jogo23": {
+      "POR": {
+        "gols": null
+      },
+      "COD": {
+        "gols": null
+      }
+    },
+    "jogo24": {
+      "UZB": {
+        "gols": null
+      },
+      "COL": {
+        "gols": null
+      }
+    }
+  }
+}

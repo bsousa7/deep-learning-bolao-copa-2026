@@ -1,0 +1,198 @@
+{
+  "nome": "Bruno Aires",
+  "turma": "2º BIM 2026",
+  "resultados": {
+    "jogo1": {
+      "MEX": {
+        "gols": 1
+      },
+      "RSA": {
+        "gols": 0
+      }
+    },
+    "jogo2": {
+      "KOR": {
+        "gols": 0
+      },
+      "CZE": {
+        "gols": 1
+      }
+    },
+    "jogo3": {
+      "CAN": {
+        "gols": 1
+      },
+      "BIH": {
+        "gols": 0
+      }
+    },
+    "jogo4": {
+      "USA": {
+        "gols": 1
+      },
+      "PAR": {
+        "gols": 1
+      }
+    },
+    "jogo5": {
+      "HAI": {
+        "gols": 0
+      },
+      "SCO": {
+        "gols": 1
+      }
+    },
+    "jogo6": {
+      "AUS": {
+        "gols": 0
+      },
+      "TUR": {
+        "gols": 1
+      }
+    },
+    "jogo7": {
+      "BRA": {
+        "gols": 1
+      },
+      "MAR": {
+        "gols": 0
+      }
+    },
+    "jogo8": {
+      "QAT": {
+        "gols": 0
+      },
+      "SUI": {
+        "gols": 1
+      }
+    },
+    "jogo9": {
+      "CIV": {
+        "gols": 0
+      },
+      "ECU": {
+        "gols": 1
+      }
+    },
+    "jogo10": {
+      "GER": {
+        "gols": 2
+      },
+      "CUW": {
+        "gols": 0
+      }
+    },
+    "jogo11": {
+      "NED": {
+        "gols": 1
+      },
+      "JPN": {
+        "gols": 1
+      }
+    },
+    "jogo12": {
+      "SWE": {
+        "gols": 1
+      },
+      "TUN": {
+        "gols": 0
+      }
+    },
+    "jogo13": {
+      "KSA": {
+        "gols": 0
+      },
+      "URU": {
+        "gols": 1
+      }
+    },
+    "jogo14": {
+      "ESP": {
+        "gols": 2
+      },
+      "CPV": {
+        "gols": 0
+      }
+    },
+    "jogo15": {
+      "IRN": {
+        "gols": 1
+      },
+      "NZL": {
+        "gols": 0
+      }
+    },
+    "jogo16": {
+      "BEL": {
+        "gols": 1
+      },
+      "EGY": {
+        "gols": 1
+      }
+    },
+    "jogo17": {
+      "FRA": {
+        "gols": 1
+      },
+      "SEN": {
+        "gols": 0
+      }
+    },
+    "jogo18": {
+      "IRQ": {
+        "gols": 0
+      },
+      "NOR": {
+        "gols": 1
+      }
+    },
+    "jogo19": {
+      "ARG": {
+        "gols": 1
+      },
+      "ALG": {
+        "gols": 0
+      }
+    },
+    "jogo20": {
+      "AUT": {
+        "gols": 2
+      },
+      "JOR": {
+        "gols": 0
+      }
+    },
+    "jogo21": {
+      "GHA": {
+        "gols": 1
+      },
+      "PAN": {
+        "gols": 0
+      }
+    },
+    "jogo22": {
+      "ENG": {
+        "gols": 1
+      },
+      "CRO": {
+        "gols": 1
+      }
+    },
+    "jogo23": {
+      "POR": {
+        "gols": 2
+      },
+      "COD": {
+        "gols": 0
+      }
+    },
+    "jogo24": {
+      "UZB": {
+        "gols": 0
+      },
+      "COL": {
+        "gols": 1
+      }
+    }
+  }
+}
