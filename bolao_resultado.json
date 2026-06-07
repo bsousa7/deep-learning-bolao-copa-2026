@@ -4,7 +4,7 @@
   "resultados": {
     "jogo1": {
       "MEX": {
-        "gols": 1
+        "gols": 2
       },
       "RSA": {
         "gols": 0
@@ -12,7 +12,7 @@
     },
     "jogo2": {
       "KOR": {
-        "gols": 0
+        "gols": 1
       },
       "CZE": {
         "gols": 1
@@ -44,7 +44,7 @@
     },
     "jogo6": {
       "AUS": {
-        "gols": 0
+        "gols": 1
       },
       "TUR": {
         "gols": 1
@@ -55,7 +55,7 @@
         "gols": 1
       },
       "MAR": {
-        "gols": 0
+        "gols": 1
       }
     },
     "jogo8": {
@@ -76,7 +76,7 @@
     },
     "jogo10": {
       "GER": {
-        "gols": 2
+        "gols": 3
       },
       "CUW": {
         "gols": 0
@@ -95,7 +95,7 @@
         "gols": 1
       },
       "TUN": {
-        "gols": 0
+        "gols": 1
       }
     },
     "jogo13": {
@@ -108,7 +108,7 @@
     },
     "jogo14": {
       "ESP": {
-        "gols": 2
+        "gols": 3
       },
       "CPV": {
         "gols": 0
@@ -127,7 +127,7 @@
         "gols": 1
       },
       "EGY": {
-        "gols": 1
+        "gols": 0
       }
     },
     "jogo17": {
@@ -167,7 +167,7 @@
         "gols": 1
       },
       "PAN": {
-        "gols": 0
+        "gols": 1
       }
     },
     "jogo22": {
